@@ -3,12 +3,12 @@
  * @Author: liusuolong001
  * @Date: 2024-07-22 01:23:24
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 02:27:41
+ * @LastEditTime: 2024-07-22 02:35:02
  */
 import { defineStore } from 'pinia'
 import { login } from '@/api/login'
 import type { ILogin } from '@/views/login/type'
-import type { ILoginResponse, ILoginResponseData } from '@/api/login/type'
+import type { IResponse, IResponseData } from '@/views/login/type'
 
 const useLogin = defineStore('login', {
   state() {
@@ -21,7 +21,7 @@ const useLogin = defineStore('login', {
   getters: {},
   actions: {
     getLogin(row: ILogin) {
-      return new Promise<ILoginResponse<ILoginResponseData>>((resolve, reject) => {
+      return new Promise<IResponse<IResponseData>>((resolve, reject) => {
         login(row)
           .then((result) => {
             this.id = result.data.id
