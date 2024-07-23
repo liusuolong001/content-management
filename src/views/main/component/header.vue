@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-23 09:45:44
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 12:31:12
+ * @LastEditTime: 2024-07-23 23:46:35
 -->
 
 <template>
@@ -54,7 +54,7 @@ function handleCollapse() {
 function handleClose(i: IHeaderList) {
   localCache.removeCache('token')
   router.push({
-    path: './login'
+    path: '/login'
   })
 }
 </script>

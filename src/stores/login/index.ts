@@ -3,11 +3,13 @@
  * @Author: liusuolong001
  * @Date: 2024-07-22 01:23:24
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 19:33:19
+ * @LastEditTime: 2024-07-23 23:31:51
  */
 import { defineStore } from 'pinia'
 import { login } from '@/api/login'
 import localCache from '@/utils/cache'
+import router from '@/router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import type { ILogin } from '@/views/login/type'
 import type { IResponse, IResponseData } from '@/types/login'
 
@@ -40,6 +42,17 @@ const useLogin = defineStore('login', {
             reject(err)
           })
       })
+    },
+    loadLocalCacheAction() {
+      const token = localCache.getCache('token')
+      const userInfo = localCache.getCache('userInfo')
+      const menuUser = localCache.getCache('menuUser')
+      if (token && userInfo && menuUser) {
+        const routes = mapMenusToRoutes(menuUser)
+        routes.forEach((route) => {
+          router.addRoute('main', route)
+        })
+      }
     }
   }
 })

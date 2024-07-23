@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-21 18:13:37
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 12:28:56
+ * @LastEditTime: 2024-07-23 23:48:49
 -->
 <template>
   <div class="login">
@@ -80,6 +80,7 @@
 import localCache from '@/utils/cache'
 import { useRouter } from 'vue-router'
 import useLogin from '@/stores/login'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getUsersId, getMenuUsers } from '@/api/login'
@@ -165,6 +166,12 @@ async function login(formEl: FormInstance | undefined) {
           const menuUserRes = await getMenuUsers(userRes.data.role.id)
           storeLogin.menuUser = menuUserRes.data
           localCache.setCache('menuUser', menuUserRes.data)
+          // 将本地的菜单与路由进行匹配动态添加到route里
+          const routes = mapMenusToRoutes(menuUserRes.data)
+
+          routes.forEach((route) => {
+            router.addRoute('main', route)
+          })
           ElMessage.success('login success')
           router.push({
             path: '/main'

@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-21 17:57:26
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 12:21:03
+ * @LastEditTime: 2024-07-23 20:50:45
 -->
 
 <template>
@@ -17,7 +17,7 @@
           <Header @closeMenus="handleCloseMenus"></Header>
         </el-header>
         <el-main>
-          <RouterView></RouterView>
+          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
