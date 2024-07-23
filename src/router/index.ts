@@ -3,9 +3,10 @@
  * @Author: liusuolong001
  * @Date: 2024-07-19 22:31:16
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 02:01:12
+ * @LastEditTime: 2024-07-23 12:27:00
  */
 import { createRouter, createWebHistory } from 'vue-router'
+import localCache from '@/utils/cache'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +14,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/main'
     },
     {
       path: '/login',
@@ -21,9 +22,9 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue')
     },
     {
-      path: '/home',
-      name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ '@/views/home/index.vue')
+      path: '/main',
+      name: 'main',
+      component: () => import(/* webpackChunkName: "main" */ '@/views/main/index.vue')
     },
     {
       path: '/:pathMatch(.*)',
@@ -37,8 +38,8 @@ const router = createRouter({
  * 路由守卫 防止通过地址栏跳转到内容页面
  */
 router.beforeEach((to) => {
-  const token = localStorage.getItem('token')
-  if (!token && to.path != '/login') {
+  const token = localCache.getCache('token')
+  if (!token && to.path === '/main') {
     return '/login'
   }
 })

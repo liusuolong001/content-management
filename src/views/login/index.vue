@@ -3,10 +3,11 @@
  * @Author: liusuolong001
  * @Date: 2024-07-21 18:13:37
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 02:25:46
+ * @LastEditTime: 2024-07-23 12:28:56
 -->
 <template>
   <div class="login">
+    <img class="icon" src="~@/assets//images//pinia.svg" alt="" />
     <div class="horizontal-gradient">
       <div class="content">
         <!-- 遮罩 -->
@@ -15,7 +16,7 @@
             <div class="top">WELCOME</div>
             <div class="center">JOIN US</div>
             <div class="bottom">
-              <img class="images" src="../../assets//images//liusuolong.jpeg" alt="" />
+              <img class="images" src="~@/assets//images//liusuolong.jpeg" alt="" />
             </div>
           </div>
         </div>
@@ -76,10 +77,12 @@
 </template>
 
 <script setup lang="ts">
+import localCache from '@/utils/cache'
 import { useRouter } from 'vue-router'
 import useLogin from '@/stores/login'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import { getUsersId, getMenuUsers } from '@/api/login'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IRegistration, ILogin } from './type'
 
@@ -153,13 +156,19 @@ async function login(formEl: FormInstance | undefined) {
           name: ruleForm.name,
           password: ruleForm.password
         })
-        .then((resolve) => {
-          if (resolve.code === 0) {
-            ElMessage.success('login success')
-            router.push({
-              path: '/home'
-            })
-          }
+        .then(async (resolve) => {
+          /* 获取这个用户是哪个角色 */
+          const userRes = await getUsersId(resolve.data.id)
+          storeLogin.userInfo = userRes.data
+          localCache.setCache('userInfo', userRes.data)
+          /* 获取这个角色菜单 */
+          const menuUserRes = await getMenuUsers(userRes.data.role.id)
+          storeLogin.menuUser = menuUserRes.data
+          localCache.setCache('menuUser', menuUserRes.data)
+          ElMessage.success('login success')
+          router.push({
+            path: '/main'
+          })
         })
     }
   })
@@ -179,12 +188,23 @@ function switchingMasks(formEl: FormInstance | undefined) {
 <style lang="less">
 .login {
   display: flex;
+  position: relative;
+
+  .icon {
+    width: 214px;
+    height: 320px;
+    position: absolute;
+    right: 5%;
+    top: 2%;
+    transform: skew(-10deg, 10deg);
+  }
 }
 
 .horizontal-gradient {
   height: 100vh;
   width: 100%;
   background: linear-gradient(to right, rgb(249, 227, 106), rgb(105, 206, 109));
+  box-shadow: 10px 10px 5px grey;
 
   display: flex;
   align-items: center;

@@ -3,22 +3,31 @@
  * @Author: liusuolong001
  * @Date: 2023-12-13 09:37:33
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 01:51:39
+ * @LastEditTime: 2024-07-23 10:45:45
  */
 import axios from 'axios'
+import localCache from '@/utils/cache'
 import type { AxiosInstance } from 'axios'
 import type { InterceptorsConfig } from './interceptors' /* 需要添加type */
 
 export class HyRequest {
   instance: AxiosInstance
 
-  /*  创建axios实列 */
+  /**
+   * @description: 创建axios实列
+   * 为每个请求添加token
+   * @return {*}
+   */
+  /*   */
   constructor(config: InterceptorsConfig) {
     this.instance = axios.create(config)
 
     this.instance.interceptors.request.use(
       (config) => {
-        // console.log('VUE请求')
+        const token = localCache.getCache('token')
+        if (config.headers && token) {
+          config.headers.Authorization = 'Bearer ' + token
+        }
         return config
       },
       (error) => {
@@ -28,7 +37,6 @@ export class HyRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
-        // console.log('VUE响应')
         return res.data
       },
       (error) => {
@@ -41,7 +49,6 @@ export class HyRequest {
      * 可以添加多拦截器 并且后面的拦截器不会覆盖掉前面的拦截器
      */
     if (config?.interceptors) {
-      // console.log('!!', config.interceptors?.interceptorsRequest)
       this.instance.interceptors.request.use(
         config.interceptors?.interceptorsRequest,
         config.interceptors?.interceptorsRequestFail

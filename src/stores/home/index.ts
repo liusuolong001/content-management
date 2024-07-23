@@ -3,12 +3,12 @@
  * @Author: liusuolong001
  * @Date: 2024-07-21 17:56:41
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-21 18:12:07
+ * @LastEditTime: 2024-07-22 17:50:38
  */
 
 import { defineStore } from 'pinia'
 
-const useHome = defineStore('login', {
+const useHome = defineStore('home', {
   /*   persist: {
     key: 'my-custom-key'
   }, */
