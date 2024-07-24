@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2023-12-13 09:39:04
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 01:32:30
+ * @LastEditTime: 2024-07-24 18:12:23
  */
 import { BASE_URL, TIME_OUT } from './config'
 import { HyRequest } from './services'

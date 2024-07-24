@@ -3,13 +3,14 @@
  * @Author: liusuolong001
  * @Date: 2023-12-13 09:37:33
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-24 16:21:27
+ * @LastEditTime: 2024-07-24 18:42:11
  */
 import axios from 'axios'
 import localCache from '@/utils/cache'
 import { ElMessage } from 'element-plus'
 import type { AxiosInstance } from 'axios'
 import type { InterceptorsConfig } from './interceptors' /* 需要添加type */
+import i18n from '@/lang'
 
 export class HyRequest {
   instance: AxiosInstance
@@ -45,7 +46,7 @@ export class HyRequest {
         switch (res.data.code) {
           case -1002:
             buExceptionFlag = true
-            returnMessage = res.data.data
+            returnMessage = res.data.data || i18n.global.t('returnMessage')
             break
           default:
             break

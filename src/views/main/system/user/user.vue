@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-23 18:47:17
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-24 16:07:34
+ * @LastEditTime: 2024-07-24 23:14:28
 -->
 <template>
   <div class="user">
@@ -52,6 +52,7 @@
     </div>
 
     <div class="page-table">
+      <el-button @click="addMethod">新建用户</el-button>
       <el-table :data="tableData" style="width: 100%" v-loading="loading">
         <el-table-column type="index" width="80" />
         <el-table-column prop="name" label="用户名" width="170" />
@@ -90,6 +91,9 @@
         @current-change="handleCurrentChange"
       />
     </div>
+
+    <!-- 测试 -->
+    <test v-model="message"></test>
   </div>
 </template>
 
@@ -100,7 +104,11 @@ import { getUserList, getDeleteUser } from '@/api/system'
 import { formatTime } from '@/utils/format'
 import { ElMessage } from 'element-plus'
 import type { IStatusOption, IPagination, ISearchForm } from './type'
-import type { ComponentSize, FormInstance } from 'element-plus'
+import type { FormInstance } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
+const message = ref('test')
 
 const searchFormRef = ref<FormInstance>()
 const loading = ref<boolean>(true)
@@ -137,6 +145,8 @@ function reset(formEl: FormInstance | undefined) {
 function search(formEl: FormInstance | undefined) {
   getUserListMethod()
 }
+
+function addMethod() {}
 function editMethod() {}
 function deleteMethod(row: any) {
   getDeleteUserListMethod(row.id)
@@ -170,6 +180,7 @@ const getDeleteUserListMethod = async (id: number) => {
 }
 
 onMounted(() => {
+  // console.log(t('returnMessage'))
   getUserListMethod()
 })
 </script>
