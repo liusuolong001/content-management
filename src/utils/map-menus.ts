@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-23 20:00:35
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 23:09:17
+ * @LastEditTime: 2024-07-24 10:23:40
  */
 import type { IBreadcrumb } from '@/views/main/type'
 import type { RouteRecordRaw } from 'vue-router'
@@ -49,12 +49,24 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 
+/**
+ * @description: 根据路径匹配面包屑
+ * @param {any} userMenus
+ * @param {string} currentPath
+ * @return {*}
+ */
 export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
   const breadcrumbs: IBreadcrumb[] = []
   pathMapToMenu(userMenus, currentPath, breadcrumbs)
   return breadcrumbs
 }
 
+/**
+ * @description: 根据路由去匹配菜单
+ * @param {any} userMenus
+ * @param {string} currentPath
+ * @return {*}
+ */
 export function pathMapToMenu(userMenus: any[], currentPath: string, breadcrumbs?: IBreadcrumb[]): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {

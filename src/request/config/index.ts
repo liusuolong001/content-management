@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2023-12-13 10:07:39
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 01:49:14
+ * @LastEditTime: 2024-07-24 14:18:07
  */
 
 /**
@@ -24,7 +24,7 @@ const TIME_OUT = 10000
 // console.log(import.meta.env.PROD)
 // console.log(import.meta.env.SSR)
 if (import.meta.env.DEV) {
-  BASE_URL = 'http://123.207.32.32:5000'
+  BASE_URL = 'http://codercba.com:5000'
 } else {
   BASE_URL = 'http://888.207.32.32:5000'
 }

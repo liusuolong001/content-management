@@ -14,7 +14,10 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@types/i18n": "^0.13.12",
+    "@vue/compat": "^3.4.33",
     "axios": "^1.1.1",
+    "dayjs": "^1.11.12",
     "element-plus": "^2.7.7",
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.7",
@@ -25,6 +28,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.14.12",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",

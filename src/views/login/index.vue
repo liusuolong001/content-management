@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-21 18:13:37
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 23:48:49
+ * @LastEditTime: 2024-07-24 15:19:11
 -->
 <template>
   <div class="login">
@@ -166,7 +166,7 @@ async function login(formEl: FormInstance | undefined) {
           const menuUserRes = await getMenuUsers(userRes.data.role.id)
           storeLogin.menuUser = menuUserRes.data
           localCache.setCache('menuUser', menuUserRes.data)
-          // 将本地的菜单与路由进行匹配动态添加到route里
+          // 将本地的菜单与路由进行匹配动态添加到route里 刷新的时候这段动态添加代码并没有被执行一遍
           const routes = mapMenusToRoutes(menuUserRes.data)
 
           routes.forEach((route) => {

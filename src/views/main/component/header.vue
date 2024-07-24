@@ -3,13 +3,20 @@
  * @Author: liusuolong001
  * @Date: 2024-07-23 09:45:44
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 23:46:35
+ * @LastEditTime: 2024-07-24 11:41:19
 -->
 
 <template>
   <div class="header">
-    <div class="left" @click="handleCollapse">
-      <el-icon><component :is="closeMenus ? 'CircleCheck' : 'CircleClose'" /></el-icon>
+    <div class="left">
+      <el-icon @click="handleCollapse"><component :is="closeMenus ? 'CircleCheck' : 'CircleClose'" /></el-icon>
+      <div class="breadcrumb">
+        <el-breadcrumb :separator-icon="ArrowRight">
+          <template v-for="(item, index) in breadcrumb" :key="index">
+            <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
+          </template>
+        </el-breadcrumb>
+      </div>
     </div>
     <div class="right" @click="openDrawer">
       <img class="images" src="~@/assets//images//liusuolong.jpeg" alt="" />
@@ -26,15 +33,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import useLogin from '@/stores/login'
 import localCache from '@/utils/cache'
-import type { IHeaderList } from '../type'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { pathMapBreadcrumbs, firstMenu } from '@/utils/map-menus'
+import type { IHeaderList, IBreadcrumb } from '../type'
 
 /* 发射关闭菜单事件 子组件 */
 const emit = defineEmits(['closeMenus'])
 
 const router = useRouter()
+const route = useRoute()
+const storeLogin = useLogin()
 const closeMenus = ref<boolean>(false)
 const drawer = ref<boolean>(false)
 const list = ref<IHeaderList[]>([{ key: 1, icon: `Bell`, text: 'Sign out' }])
@@ -48,15 +60,24 @@ function handleCollapse() {
   emit('closeMenus', closeMenus.value)
 }
 
-/**
- * 退出操作
- */
+/* 退出操作 */
 function handleClose(i: IHeaderList) {
   localCache.removeCache('token')
   router.push({
     path: '/login'
   })
 }
+
+/* 顶部面包屑实现 默认监听一次 */
+const breadcrumb = ref<IBreadcrumb[]>([])
+
+watch(
+  () => route.path,
+  (newValue) => {
+    breadcrumb.value = pathMapBreadcrumbs(storeLogin.menuUser, newValue)
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="less" scoped>
@@ -68,6 +89,23 @@ function handleClose(i: IHeaderList) {
 
   .left {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .el-icon {
+      color: white;
+    }
+
+    :deep(.el-breadcrumb__inner) {
+      color: white;
+    }
+    :deep(.el-breadcrumb__separator) {
+      color: white;
+    }
+
+    .breadcrumb {
+      padding-left: 10px;
+    }
   }
 
   .right {

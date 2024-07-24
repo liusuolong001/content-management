@@ -3,22 +3,23 @@
  * @Author: liusuolong001
  * @Date: 2024-07-21 17:56:41
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-22 17:50:38
+ * @LastEditTime: 2024-07-24 11:14:11
  */
 
 import { defineStore } from 'pinia'
+import type { IBreadcrumb } from '@/views/main/type'
 
-const useHome = defineStore('home', {
+const useMain = defineStore('main', {
   /*   persist: {
     key: 'my-custom-key'
   }, */
   state() {
     return {
-      counter: 199
+      breadcrumb: []
     }
   },
   getters: {},
   actions: {}
 })
 
-export default useHome
+export default useMain

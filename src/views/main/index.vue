@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter, RouterView } from 'vue-router'
-import useLogin from '@/stores/home'
+import useLogin from '@/stores/main'
 import Menus from './component/menus.vue'
 import Header from './component/header.vue'
 

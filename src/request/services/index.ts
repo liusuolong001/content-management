@@ -3,10 +3,11 @@
  * @Author: liusuolong001
  * @Date: 2023-12-13 09:37:33
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 19:07:08
+ * @LastEditTime: 2024-07-24 16:21:27
  */
 import axios from 'axios'
 import localCache from '@/utils/cache'
+import { ElMessage } from 'element-plus'
 import type { AxiosInstance } from 'axios'
 import type { InterceptorsConfig } from './interceptors' /* 需要添加type */
 
@@ -37,27 +38,39 @@ export class HyRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
+        // 对于request成功response失败处理
+        let returnMessage = ''
+        let buExceptionFlag = false //处理异常
+
+        switch (res.data.code) {
+          case -1002:
+            buExceptionFlag = true
+            returnMessage = res.data.data
+            break
+          default:
+            break
+        }
+
+        if (buExceptionFlag) {
+          ElMessage({
+            message: returnMessage,
+            type: 'error',
+            duration: 3 * 1000
+          })
+        }
         return res.data
       },
       (error) => {
+        switch (error.response.status) {
+          case 400:
+            ElMessage.error(error.response.data)
+            break
+          default:
+            break
+        }
         return error
       }
     )
-
-    /**
-     * 针对特定的请求实列添加拦截器
-     * 可以添加多拦截器 并且后面的拦截器不会覆盖掉前面的拦截器
-     */
-    if (config?.interceptors) {
-      this.instance.interceptors.request.use(
-        config.interceptors?.interceptorsRequest,
-        config.interceptors?.interceptorsRequestFail
-      )
-      this.instance.interceptors.response.use(
-        config.interceptors?.interceptorsResponse,
-        config.interceptors?.interceptorsResponseFail
-      )
-    }
   }
 
   /*   封装网络请求 axios实列方法 */
@@ -91,5 +104,9 @@ export class HyRequest {
 
   post<T = any>(config: InterceptorsConfig<T>) {
     return this.request({ ...config, method: 'POST' })
+  }
+
+  delete<T = any>(config: InterceptorsConfig<T>) {
+    return this.request({ ...config, method: 'DELETE' })
   }
 }

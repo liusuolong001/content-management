@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-22 18:56:16
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-23 20:53:28
+ * @LastEditTime: 2024-07-24 11:27:52
 -->
 
 <template>
@@ -14,12 +14,13 @@
     </div>
     <div class="menus">
       <el-menu
-        default-active="2"
+        :default-active="defaultActive"
         class="el-menu-vertical"
         background-color="#75d67b"
         text-color="#ffffff"
         active-text-color="#f9db61"
         :collapse="closeMenus"
+        :unique-opened="true"
       >
         <template v-for="(item, index) in menus" :key="item.id">
           <!-- 二级菜单 -->
@@ -47,10 +48,11 @@
 </template>
 
 <script setup lang="ts">
+import { pathMapToMenu } from '@/utils/map-menus'
 import localCache from '@/utils/cache'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 defineProps({
   closeMenus: {
@@ -62,6 +64,7 @@ defineProps({
 const message = ref<string>('')
 const menus = localCache.getCache('menuUser')
 const router = useRouter()
+const route = useRoute()
 const icons = [Monitor, Setting, Goods, ChatLineRound]
 
 function handleMenuItemClick(item: any) {
@@ -69,6 +72,9 @@ function handleMenuItemClick(item: any) {
     path: item.url ?? '/404'
   })
 }
+
+const pathMenus = pathMapToMenu(menus, route.path)
+const defaultActive = ref<string>(pathMenus.id + '')
 </script>
 
 <style lang="less" scoped>
