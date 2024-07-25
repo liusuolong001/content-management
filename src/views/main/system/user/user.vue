@@ -3,7 +3,7 @@
  * @Author: liusuolong001
  * @Date: 2024-07-23 18:47:17
  * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-24 23:14:28
+ * @LastEditTime: 2024-07-25 06:08:30
 -->
 <template>
   <div class="user">
@@ -68,10 +68,10 @@
             >
           </template>
         </el-table-column>
-        <el-table-column prop="createAt" label="创建时间" width="250">
+        <el-table-column prop="createAt" label="创建时间" width="230">
           <template #default="scoped">{{ formatTime(scoped.row.createAt) }}</template>
         </el-table-column>
-        <el-table-column prop="updateAt" label="更新时间" width="250">
+        <el-table-column prop="updateAt" label="更新时间" width="230">
           <template #default="scoped">{{ formatTime(scoped.row.updateAt) }}</template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="180" align="center">
@@ -92,24 +92,25 @@
       />
     </div>
 
-    <!-- 测试 -->
-    <test v-model="message"></test>
+    <!-- 添加用户 -->
+    <user-add-dialog v-model:parCount="parCount"></user-add-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import useUser from '@/stores/user'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, watch } from 'vue'
 import { getUserList, getDeleteUser } from '@/api/system'
 import { formatTime } from '@/utils/format'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import userAddDialog from './userAddDialog.vue'
 import type { IStatusOption, IPagination, ISearchForm } from './type'
 import type { FormInstance } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-const message = ref('test')
-
+// 测试组件v-mode:parCount 双向绑值
+const parCount = ref<number>(10)
 const searchFormRef = ref<FormInstance>()
 const loading = ref<boolean>(true)
 const currentPage = ref<number>(1)
@@ -149,7 +150,13 @@ function search(formEl: FormInstance | undefined) {
 function addMethod() {}
 function editMethod() {}
 function deleteMethod(row: any) {
-  getDeleteUserListMethod(row.id)
+  ElMessageBox.confirm(t('user.deleteUserMessage'), {
+    confirmButtonText: t('common.confirm'),
+    cancelButtonText: t('common.cancel'),
+    type: 'warning'
+  }).then(() => {
+    getDeleteUserListMethod(row.id)
+  })
 }
 
 function handleSizeChange(size: number) {
@@ -176,11 +183,14 @@ const getUserListMethod = async () => {
 const getDeleteUserListMethod = async (id: number) => {
   loading.value = true
   const res = await getDeleteUser(id)
+  ElMessage({
+    type: 'success',
+    message: t('common.deleteMessage')
+  })
   loading.value = false
 }
 
 onMounted(() => {
-  // console.log(t('returnMessage'))
   getUserListMethod()
 })
 </script>
