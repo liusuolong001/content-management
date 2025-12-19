@@ -45,7 +45,7 @@
           </el-menu-item>
         </template>
       </el-menu>
-      <div class="user-area"></div>
+      <!-- <div class="user-area"></div> -->
     </div>
   </div>
 </template>
@@ -81,6 +81,7 @@ const topMenus = computed(() => {
 
 // 菜单项点击处理
 function handleMenuItemClick(item: any) {
+  console.log('item', item, item.url)
   if (item.url) {
     router.push({
       path: item.url ?? '/404'

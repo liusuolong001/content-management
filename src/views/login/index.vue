@@ -43,8 +43,9 @@
 
 <script setup lang="ts">
 import localCache from '@/utils/cache'
-import { useRouter } from 'vue-router'
 import useLogin from '@/stores/login'
+import _ from 'lodash'
+import { useRouter } from 'vue-router'
 import { mapMenusToRoutes } from '@/utils/map-menus'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -91,10 +92,25 @@ async function login(formEl: FormInstance | undefined) {
           localCache.setCache('userInfo', userRes.data)
           /* 获取这个角色菜单 */
           const menuUserRes = await getMenuUsers(userRes.data.role.id)
-          storeLogin.menuUser = menuUserRes.data
-          localCache.setCache('menuUser', menuUserRes.data)
-          // 将本地的菜单与路由进行匹配动态添加到route里 刷新的时候这段动态添加代码并没有被执行一遍
-          const routes = mapMenusToRoutes(menuUserRes.data)
+          // storeLogin.menuUser = menuUserRes.data
+          // localCache.setCache('menuUser', menuUserRes.data)
+          // // // 将本地的菜单与路由进行匹配动态添加到route里 刷新的时候这段动态添加代码并没有被执行一遍
+          // const routes = mapMenusToRoutes(menuUserRes.data)
+          console.log('00', menuUserRes.data)
+          /**
+           * 暂时设置 只有一级路由 手动修改
+           */
+          const _data = _.map(menuUserRes.data, (it) => {
+            return {
+              ...it,
+              children: []
+            }
+          })
+          // console.log('_data', _data)
+          storeLogin.menuUser = _data
+          localCache.setCache('menuUser', _data)
+          const routes = mapMenusToRoutes(_data)
+
           routes.forEach((route) => {
             router.addRoute('main', route)
           })

@@ -1,5 +1,5 @@
 <template>
-  <div>menu</div>
+  <div>{{ '测试喂喂喂' }}</div>
 </template>
 
 <script setup lang="ts"></script>

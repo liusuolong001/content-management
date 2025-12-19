@@ -1,10 +1,3 @@
-<!--
- * @Description:
- * @Author: liusuolong001
- * @Date: 2024-07-19 22:31:16
- * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-25 18:44:55
--->
 <template>
   <!-- 配置国际化语言element-plus -->
   <div class="app">

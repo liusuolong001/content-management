@@ -38,7 +38,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ArrowRight } from '@element-plus/icons-vue'
-import { pathMapBreadcrumbs, firstMenu } from '@/utils/map-menus'
+import { pathMapBreadcrumbs } from '@/utils/map-menus'
 import { useI18n } from 'vue-i18n'
 import useLogin from '@/stores/login'
 import useMain from '@/stores/main'
