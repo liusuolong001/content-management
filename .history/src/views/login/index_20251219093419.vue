@@ -1,9 +1,10 @@
 <template>
   <div class="login">
+    <img class="icon" src="~@/assets//images//pinia.svg" alt="" />
     <div class="horizontal-gradient">
       <div class="content">
         <!-- 遮罩 -->
-        <div :class="['left-gradient', 'cover']">
+        <div :class="[active ? 'right-gradient' : 'left-gradient', 'cover']">
           <div class="info">
             <div class="top">WELCOME</div>
             <div class="center">JOIN US</div>
@@ -13,7 +14,31 @@
           </div>
         </div>
         <!-- 遮罩底下内容 -->
+        <!-- 注册 -->
         <div class="reg_login">
+          <div class="regis">
+            <div class="text">Registration</div>
+            <el-form ref="regisFormRef" :rules="regisRules" :model="regisForm" class="ruleForm">
+              <el-form-item prop="name">
+                <el-input v-model="regisForm.name" style="width: 290px" placeholder="Account" clearable />
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input v-model="regisForm.password" style="width: 290px" placeholder="password" clearable />
+              </el-form-item>
+              <el-form-item prop="confirmPassword">
+                <el-input
+                  v-model="regisForm.confirmPassword"
+                  style="width: 290px"
+                  placeholder="confirmPassword"
+                  clearable
+                />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="regis(regisFormRef)">Registration</el-button>
+                <span class="account_login" @click="switchingMasks(regisFormRef)">Have an name, login</span>
+              </el-form-item>
+            </el-form>
+          </div>
           <!-- 登陆 -->
           <div class="regis">
             <div class="text">Login</div>
@@ -32,6 +57,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="login(ruleFormRef)">login</el-button>
+                <span class="account_login" @click="switchingMasks(ruleFormRef)">Do not have an name, register</span>
               </el-form-item>
             </el-form>
           </div>
@@ -50,10 +76,36 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getUsersId, getMenuUsers } from '@/api/login'
 import type { FormInstance, FormRules } from 'element-plus'
-import type { ILogin } from './type'
+import type { IRegistration, ILogin } from './type'
 
 const router = useRouter()
 const storeLogin = useLogin()
+let active = ref<boolean>(true)
+
+// 注册操作
+const regisForm = reactive<IRegistration>({
+  name: '',
+  password: '',
+  confirmPassword: ''
+})
+
+const regisRules = reactive<FormRules<IRegistration>>({
+  name: [{ required: true, message: 'Please input Activity name', trigger: 'change' }],
+  password: [
+    {
+      required: true,
+      message: 'Please select Activity password',
+      trigger: 'change'
+    }
+  ],
+  confirmPassword: [
+    {
+      required: true,
+      message: 'Please select Activity confirmPassword',
+      trigger: 'change'
+    }
+  ]
+})
 
 // 登陆操作
 const ruleForm = reactive<ILogin>({
@@ -105,18 +157,37 @@ async function login(formEl: FormInstance | undefined) {
     }
   })
 }
+
+function switchingMasks(formEl: FormInstance | undefined) {
+  if (!formEl) return
+  formEl.resetFields()
+  if (active.value) {
+    active.value = false
+    return
+  }
+  active.value = true
+}
 </script>
 
 <style lang="less">
 .login {
   display: flex;
   position: relative;
+
+  .icon {
+    width: 214px;
+    height: 320px;
+    position: absolute;
+    right: 5%;
+    top: 2%;
+    transform: skew(-10deg, 10deg);
+  }
 }
 
 .horizontal-gradient {
   height: 100vh;
   width: 100%;
-  // background: linear-gradient(to right, rgb(249, 227, 106), rgb(105, 206, 109));
+  background: linear-gradient(to right, rgb(249, 227, 106), rgb(105, 206, 109));
   box-shadow: 10px 10px 5px grey;
 
   display: flex;
@@ -166,39 +237,14 @@ async function login(formEl: FormInstance | undefined) {
     }
 
     .left-gradient {
-      border-radius: 0px 15px 15px 0px;
+      border-radius: 0px 30px 30px 0px;
       transform: translate(420px, 0);
       background-color: rgb(105, 206, 109);
     }
 
-    // 遮罩底下内容
-    .reg_login {
-      display: flex;
-
-      .regis {
-        width: 50%;
-        height: 100%;
-        text-align: center;
-        line-height: 50px;
-
-        .text {
-          color: white;
-          font-size: 20px;
-          padding-top: 20px;
-        }
-        .account_login {
-          color: white;
-          padding-left: 10px;
-        }
-        .account_login:hover {
-          color: rgb(79, 144, 251);
-        }
-      }
-      .ruleForm {
-        width: 100%;
-        text-align: center;
-        margin-left: 15%;
-      }
+    .right-gradient {
+      border-radius: 30px 0 0 30px;
+      background-color: rgb(249, 227, 106);
     }
   }
 }

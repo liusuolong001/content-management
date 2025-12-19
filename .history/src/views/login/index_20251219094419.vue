@@ -3,7 +3,7 @@
     <div class="horizontal-gradient">
       <div class="content">
         <!-- 遮罩 -->
-        <div :class="['left-gradient', 'cover']">
+        <div :class="[active ? 'right-gradient' : 'left-gradient', 'cover']">
           <div class="info">
             <div class="top">WELCOME</div>
             <div class="center">JOIN US</div>
@@ -54,6 +54,7 @@ import type { ILogin } from './type'
 
 const router = useRouter()
 const storeLogin = useLogin()
+let active = ref<boolean>(false)
 
 // 登陆操作
 const ruleForm = reactive<ILogin>({
@@ -165,10 +166,15 @@ async function login(formEl: FormInstance | undefined) {
       }
     }
 
-    .left-gradient {
-      border-radius: 0px 15px 15px 0px;
-      transform: translate(420px, 0);
-      background-color: rgb(105, 206, 109);
+    // .left-gradient {
+    //   border-radius: 0px 30px 30px 0px;
+    //   transform: translate(420px, 0);
+    //   background-color: rgb(105, 206, 109);
+    // }
+
+    .right-gradient {
+      border-radius: 30px 0 0 30px;
+      background-color: rgb(249, 227, 106);
     }
 
     // 遮罩底下内容

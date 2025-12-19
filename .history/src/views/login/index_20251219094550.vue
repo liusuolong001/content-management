@@ -166,7 +166,7 @@ async function login(formEl: FormInstance | undefined) {
     }
 
     .left-gradient {
-      border-radius: 0px 15px 15px 0px;
+      border-radius: 0px 30px 30px 0px;
       transform: translate(420px, 0);
       background-color: rgb(105, 206, 109);
     }

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { login } from '@/api/login'
 import { mapMenusToRoutes } from '@/utils/map-menus'
+
 import type { ILogin } from '@/views/login/type'
 import type { IResponse, IResponseData } from '@/types/login'
 import localCache from '@/utils/cache'

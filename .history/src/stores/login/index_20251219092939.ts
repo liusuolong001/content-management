@@ -1,10 +1,17 @@
+/*
+ * @Description:
+ * @Author: liusuolong001
+ * @Date: 2024-07-22 01:23:24
+ * @LastEditors: liusuolong001
+ * @LastEditTime: 2024-07-23 23:31:51
+ */
 import { defineStore } from 'pinia'
 import { login } from '@/api/login'
+import localCache from '@/utils/cache'
+import router from '@/router'
 import { mapMenusToRoutes } from '@/utils/map-menus'
 import type { ILogin } from '@/views/login/type'
 import type { IResponse, IResponseData } from '@/types/login'
-import localCache from '@/utils/cache'
-import router from '@/router'
 
 const useLogin = defineStore('login', {
   state() {
