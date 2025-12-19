@@ -3,8 +3,8 @@
     <el-container class="home-container">
       <el-container>
         <el-header class="top-header">
-          <Menus></Menus>
           <Header></Header>
+          <Menus></Menus>
         </el-header>
         <el-main class="main-content">
           <router-view></router-view>
@@ -48,6 +48,7 @@ const storeHome = useLogin()
     flex: 1;
     padding: 20px;
     overflow: auto;
+    padding-top: 500px;
   }
 }
 </style>

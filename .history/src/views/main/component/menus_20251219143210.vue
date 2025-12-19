@@ -65,7 +65,7 @@ defineProps({
   }
 })
 
-const message = ref<string>('xxxxx')
+const message = ref<string>('系统管理')
 const router = useRouter()
 const route = useRoute()
 const icons = [Monitor, Setting, Goods, ChatLineRound]
@@ -103,7 +103,7 @@ watch(
   }
 )
 </script>
-
+<!-- 
 <style lang="less" scoped>
 .app_menus {
   width: 100%;
@@ -208,4 +208,6 @@ watch(
     }
   }
 }
-</style>
+</style> -->
+
+<style lang="less" scoped>"></style>

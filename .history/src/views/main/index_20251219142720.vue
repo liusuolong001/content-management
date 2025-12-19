@@ -1,10 +1,11 @@
 <template>
   <div class="home">
     <el-container class="home-container">
+      <!-- 移除 el-aside，将菜单放在 el-header 上方 -->
       <el-container>
         <el-header class="top-header">
+          <div><Header></Header></div>
           <Menus></Menus>
-          <Header></Header>
         </el-header>
         <el-main class="main-content">
           <router-view></router-view>
@@ -48,6 +49,7 @@ const storeHome = useLogin()
     flex: 1;
     padding: 20px;
     overflow: auto;
+    padding-top: 500px;
   }
 }
 </style>

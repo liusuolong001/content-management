@@ -1,16 +1,11 @@
-/*
- * @Description:
- * @Author: liusuolong001
- * @Date: 2024-07-23 20:00:35
- * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-24 10:23:40
- */
 import type { IBreadcrumb } from '@/views/main/type'
 import type { RouteRecordRaw } from 'vue-router'
 
 let firstMenu: any = null
 
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
+  console.log('userMenus', userMenus)
+
   const routes: RouteRecordRaw[] = []
 
   // 1.先去加载默认所有的routes
@@ -20,10 +15,13 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
    * 第二个参数eager直接响应不进行懒加载
    */
   const routeFiles: Record<string, any> = import.meta.glob('../router/main/**/*.ts', { eager: true })
+  // console.log('routeFiles', routeFiles)
   for (const key in routeFiles) {
     // 从routeFiles中拿到key匹配
     const module = routeFiles[key]
     allRoutes.push(module.default)
+    console.log('@', routeFiles, key, module.default)
+    // console.log('allRoutes', allRoutes)
   }
   // 2.根据菜单获取需要添加的routes
   // recurse：递归
@@ -45,6 +43,8 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   }
 
   _recurseGetRoute(userMenus)
+
+  // console.log('routes', routes)
 
   return routes
 }

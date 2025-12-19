@@ -73,6 +73,8 @@ const ruleRules = reactive<FormRules<ILogin>>({
 })
 
 const ruleFormRef = ref<FormInstance>()
+
+// TODO: 登陆 手动跳转 未链条接口
 async function login(formEl: FormInstance | undefined) {
   if (!formEl) return
   await formEl.validate((valid) => {
@@ -93,7 +95,6 @@ async function login(formEl: FormInstance | undefined) {
           localCache.setCache('menuUser', menuUserRes.data)
           // 将本地的菜单与路由进行匹配动态添加到route里 刷新的时候这段动态添加代码并没有被执行一遍
           const routes = mapMenusToRoutes(menuUserRes.data)
-
           routes.forEach((route) => {
             router.addRoute('main', route)
           })

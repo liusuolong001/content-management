@@ -48,6 +48,7 @@ const storeHome = useLogin()
     flex: 1;
     padding: 20px;
     overflow: auto;
+    padding-top: 500px;
   }
 }
 </style>

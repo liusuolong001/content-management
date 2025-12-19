@@ -1,9 +1,9 @@
 import axios from 'axios'
 import localCache from '@/utils/cache'
-import i18n from '@/lang'
 import { ElMessage } from 'element-plus'
 import type { AxiosInstance } from 'axios'
 import type { InterceptorsConfig } from './interceptors' /* 需要添加type */
+import i18n from '@/lang'
 
 export class HyRequest {
   instance: AxiosInstance

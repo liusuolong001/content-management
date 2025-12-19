@@ -37,12 +37,12 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { pathMapBreadcrumbs, firstMenu } from '@/utils/map-menus'
-import { useI18n } from 'vue-i18n'
 import useLogin from '@/stores/login'
 import useMain from '@/stores/main'
 import localCache from '@/utils/cache'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { pathMapBreadcrumbs, firstMenu } from '@/utils/map-menus'
+import { useI18n } from 'vue-i18n'
 import type { IHeaderList, IBreadcrumb } from '../type'
 
 /* 发射关闭菜单事件 子组件 */
@@ -54,6 +54,7 @@ const storeLogin = useLogin()
 const storeMain = useMain()
 const drawer = ref<boolean>(false)
 const list = ref<IHeaderList[]>([{ key: 1, icon: `Bell`, text: 'Sign out' }])
+const shouldAppear = ref<boolean>(false) // 动画属性
 const renderVnode = ref<boolean>(true) // 第一次进入页面首次并且挂在的dom元素
 
 onMounted(() => {
@@ -63,6 +64,11 @@ onMounted(() => {
 function openDrawer() {
   drawer.value = true
 }
+function searchTop() {
+  shouldAppear.value = !shouldAppear.value
+  renderVnode.value = true
+}
+
 /* 退出操作 */
 function handleClose(i: IHeaderList) {
   localCache.removeCache('token')
@@ -98,7 +104,7 @@ function setLocal(lang: string) {
   justify-content: space-between;
   height: 100%;
   position: relative;
-  width: 20%;
+  width: 1000px;
 
   @keyframes slideDown {
     from {

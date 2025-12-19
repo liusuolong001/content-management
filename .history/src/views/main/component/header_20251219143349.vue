@@ -43,6 +43,7 @@ import { useI18n } from 'vue-i18n'
 import useLogin from '@/stores/login'
 import useMain from '@/stores/main'
 import localCache from '@/utils/cache'
+
 import type { IHeaderList, IBreadcrumb } from '../type'
 
 /* 发射关闭菜单事件 子组件 */
@@ -54,6 +55,7 @@ const storeLogin = useLogin()
 const storeMain = useMain()
 const drawer = ref<boolean>(false)
 const list = ref<IHeaderList[]>([{ key: 1, icon: `Bell`, text: 'Sign out' }])
+const shouldAppear = ref<boolean>(false) // 动画属性
 const renderVnode = ref<boolean>(true) // 第一次进入页面首次并且挂在的dom元素
 
 onMounted(() => {
@@ -63,6 +65,11 @@ onMounted(() => {
 function openDrawer() {
   drawer.value = true
 }
+function searchTop() {
+  shouldAppear.value = !shouldAppear.value
+  renderVnode.value = true
+}
+
 /* 退出操作 */
 function handleClose(i: IHeaderList) {
   localCache.removeCache('token')

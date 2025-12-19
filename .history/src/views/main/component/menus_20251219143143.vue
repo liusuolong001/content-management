@@ -65,7 +65,7 @@ defineProps({
   }
 })
 
-const message = ref<string>('xxxxx')
+const message = ref<string>('系统管理')
 const router = useRouter()
 const route = useRoute()
 const icons = [Monitor, Setting, Goods, ChatLineRound]
@@ -208,4 +208,6 @@ watch(
     }
   }
 }
+</style>
+
 </style>

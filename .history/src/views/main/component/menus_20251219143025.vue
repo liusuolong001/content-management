@@ -65,7 +65,7 @@ defineProps({
   }
 })
 
-const message = ref<string>('xxxxx')
+const message = ref<string>('系统管理')
 const router = useRouter()
 const route = useRoute()
 const icons = [Monitor, Setting, Goods, ChatLineRound]
@@ -205,6 +205,25 @@ watch(
     .user-area {
       min-width: 100%;
       height: 60px;
+    }
+  }
+}
+</style>
+
+<style lang="less">
+/* 全局样式，用于自定义下拉菜单 */
+.vertical-menu-popper {
+  .el-menu {
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .el-menu-item {
+      transition: all 0.3s;
+
+      &:hover {
+        transform: translateX(5px);
+      }
     }
   }
 }

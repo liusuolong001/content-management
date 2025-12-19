@@ -54,6 +54,7 @@ const storeLogin = useLogin()
 const storeMain = useMain()
 const drawer = ref<boolean>(false)
 const list = ref<IHeaderList[]>([{ key: 1, icon: `Bell`, text: 'Sign out' }])
+const shouldAppear = ref<boolean>(false) // 动画属性
 const renderVnode = ref<boolean>(true) // 第一次进入页面首次并且挂在的dom元素
 
 onMounted(() => {

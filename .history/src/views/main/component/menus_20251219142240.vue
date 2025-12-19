@@ -5,6 +5,7 @@
       <div class="logo-area">
         <div class="text">{{ message }}</div>
       </div>
+
       <!-- 水平排列的一级菜单 -->
       <el-menu
         :default-active="defaultActive"
@@ -26,6 +27,7 @@
               <el-icon><component :is="icons[index % icons.length]" /></el-icon>
               <span v-if="item.name">{{ item.name }}</span>
             </template>
+
             <!-- 垂直排列的二级子菜单 -->
             <template v-for="subItem in item.children" :key="subItem.id">
               <el-menu-item :index="subItem.id + ''" @click="handleMenuItemClick(subItem)">
@@ -45,7 +47,10 @@
           </el-menu-item>
         </template>
       </el-menu>
-      <div class="user-area"></div>
+
+      <div class="user-area">
+        <!-- 可以在这里添加用户信息等其他内容 -->
+      </div>
     </div>
   </div>
 </template>
@@ -65,7 +70,7 @@ defineProps({
   }
 })
 
-const message = ref<string>('xxxxx')
+const message = ref<string>('系统管理')
 const router = useRouter()
 const route = useRoute()
 const icons = [Monitor, Setting, Goods, ChatLineRound]
@@ -205,6 +210,25 @@ watch(
     .user-area {
       min-width: 100%;
       height: 60px;
+    }
+  }
+}
+</style>
+
+<style lang="less">
+/* 全局样式，用于自定义下拉菜单 */
+.vertical-menu-popper {
+  .el-menu {
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .el-menu-item {
+      transition: all 0.3s;
+
+      &:hover {
+        transform: translateX(5px);
+      }
     }
   }
 }

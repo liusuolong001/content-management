@@ -1,10 +1,3 @@
-/*
- * @Description
- * @Author: liusuolong001
- * @Date: 2024-07-22 02:26:47
- * @LastEditors: liusuolong001
- * @LastEditTime: 2024-07-24 14:02:26
- */
 import { request } from '@/request'
 import type { ILogin } from '@/views/login/type'
 import type { IResponse, IResponseData } from '@/types/login'
